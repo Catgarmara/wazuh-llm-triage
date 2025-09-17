@@ -1,53 +1,38 @@
-# AI Threat Hunter 
+# SOC AI Chat with Alert Processing
 
-**Deploy an autonomous AI analyst that investigates alerts, queries your SIEM, and produces evidence-backed decisions in minutes instead of hours.**
+A Flask-based Security Operations Center (SOC) AI chat application with alert processing, OSINT enrichment, and SIEM integration.
 
-A Flask-based SOC assistant that enables AI-powered security analysis by connecting to live SIEM data. Built as a lightweight alternative for security teams who need AI assistance without enterprise vendor lock-in.
+## 🚀 Current Features
 
-## 🚀 Core Features
-
-- **Multi-Model AI Support**: Choose between DeepSeek, Google Gemini, and OpenAI models
-- **Real-Time SIEM Integration**: Query live security data and let AI analyze the raw results
-- **SOC Analysis Templates**: Pre-built templates for incident analysis, threat hunting, and forensic investigation
-- **Streaming Responses**: Get AI analysis as it's generated, not after long waits
-- **Model Switching**: Change AI providers mid-conversation without losing context
-- **Flexible Query Engine**: Execute any SIEM query and have AI analyze the results
-
-## 🔌 SIEM Integrations
-
-### Current
-- ✅ **OpenSearch/Elasticsearch** - Query via console proxy pattern with full authentication support
-
-### In Development (Week 4-6)
-- 🚧 **Splunk** - Enterprise and Cloud integration
-- 🚧 **CrowdStrike Falcon** - EDR alerts and event data
-- 🚧 **Microsoft Sentinel** - Azure Sentinel workspace queries
-
-### Planned
-- **Elastic Security** - Native Elastic SIEM integration  
-- **Chronicle Security** - Google Chronicle support
-- **Generic REST API** - Connect to any SIEM with REST endpoints
+- **Multi-Model AI Chat**: DeepSeek and Google Gemini support with session management
+- **Alert Processing Pipeline**: Webhook → SQLite → AI Analysis → OSINT → Final Report
+- **OSINT Enrichment**: Perplexity API integration for threat intelligence
+- **OpenSearch Integration**: Query interface for security data (console proxy pattern)
+- **3-Phase AI Analysis**: Initial analysis → IoC extraction → OSINT lookup → Final analysis
+- **SQLite Alert Storage**: Persistent storage with update capabilities
+- **Session Management**: Conversation history with 24-hour expiration
+- **Health Monitoring**: System status and component health checks
 
 ## 🚀 Quick Start
 
 ### Prerequisites
 - Python 3.8+
-- LLM API or LLM access
-- Access to SIEMS
+- Required API keys (see .env.example)
 
 ### Installation
 
-1. **Clone and install**:
+1. **Install dependencies**:
    ```bash
-   git clone https://github.com/catgarmara/ai-threat-hunter.git
-   cd ai-threat-hunter
    pip install -r requirements.txt
    ```
 
-2. **Configure environment**:
+2. **Set up environment**:
    ```bash
    cp .env.example .env
-   # Edit .env with your API keys and SIEM credentials
+   # Edit .env and add your API keys:
+   # DEEPSEEK_API_KEY=your-key (required)
+   # PERPLEXITY_API_KEY=pplx-xxxx (for OSINT)
+   # OPENSEARCH_HOST=your-opensearch.com (for queries)
    ```
 
 3. **Run the application**:
@@ -55,167 +40,177 @@ A Flask-based SOC assistant that enables AI-powered security analysis by connect
    python3 app.py
    ```
 
-4. **Open browser**: http://127.0.0.1:5000
+4. **Open in browser**: http://127.0.0.1:5000
 
-## 📋 SOC Analysis Examples
-
-### Basic Incident Analysis
+### Testing
 ```bash
-curl -X POST http://localhost:5000/soc/analyze \
-  -H "Content-Type: application/json" \
-  -d '{"incident_data": "Suspicious PowerShell execution detected", "template": "incident_analysis"}'
+# Interactive testing
+python3 manual_test.py
+
+# Test model functionality  
+python3 demo_ai_clients.py
 ```
 
-### Query Live SIEM Data
+## 🚨 Alert Processing (NEW)
+
+### Webhook for SIEM Alerts
+The application can receive and process security alerts from any SIEM:
+
 ```bash
-curl -X POST http://localhost:5000/soc/analyze \
+# Send alert to webhook
+curl -X POST http://localhost:5000/opensearch/alert \
   -H "Content-Type: application/json" \
   -d '{
-    "incident_data": "Analyze authentication failures",
-    "opensearch_query": {
-      "query": {"match": {"event.outcome": "failure"}},
-      "size": 100
-    }
+    "source_ip": "192.168.1.100",
+    "event_type": "ssh_brute_force",
+    "severity": "high"
   }'
+
+# Retrieve processed alert
+curl http://localhost:5000/opensearch/alert/1
 ```
 
-## 🛠 Architecture
+**Processing Flow:**
+1. Alert received via webhook
+2. Saved to SQLite database
+3. AI performs initial analysis
+4. IoCs extracted and sent to Perplexity for OSINT
+5. Final analysis with threat intelligence
+6. Complete report stored in database
 
-```
-ai-threat-hunter/
-├── app.py                    # Main Flask application & SOC endpoints
-├── ai_clients.py            # Multi-model AI integration
-├── config_manager.py        # Environment and configuration
-├── opensearch_client_wrapper.py  # SIEM query integration (starting with OpenSearch)
-├── error_handler.py         # Error handling and recovery
-├── monitoring_manager.py    # Metrics and observability
-├── static/                  # Web UI assets
-│   ├── index.html          
-│   ├── js/main.js          
-│   └── css/               
-├── security_core/          # Security analysis modules
-├── tests/                  # Test suites
-└── ccspec/                # Implementation specifications
-```
-
-## 🔧 Configuration
+## ⚙️ Configuration
 
 ### Required Environment Variables
 ```bash
-# AI Model Keys
-DEEPSEEK_API_KEY=sk-your-deepseek-key
-GEMINI_API_KEY=your-gemini-key  # Optional
-
-# OpenSearch/Elasticsearch (Optional)
-OPENSEARCH_HOST=your-opensearch.company.com
-OPENSEARCH_PORT=443
+DEEPSEEK_API_KEY=your-deepseek-key         # AI provider
+PERPLEXITY_API_KEY=pplx-xxxx               # OSINT enrichment
+OPENSEARCH_HOST=your-opensearch.com        # SIEM queries
 OPENSEARCH_USER=your-username
 OPENSEARCH_PASSWORD=your-password
-OPENSEARCH_INDEX=security-*
-OPENSEARCH_SSL=true
 ```
 
-### API Endpoints
+## 🔌 API Reference
 
-- **Web Interface**: `GET /`
-- **Chat**: `POST /chat`
-- **SOC Analysis**: `POST /soc/analyze`
-- **Health Check**: `GET /health`
-- **Metrics**: `GET /performance`
-- **SOC Templates**: `GET /soc/templates`
+### Basic Chat
+```bash
+curl -X POST http://localhost:5000/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Hello", "model": "deepseek"}'
+```
 
-## 📈 Development Roadmap
+### Streaming Chat
+```bash
+curl -X POST http://localhost:5000/chat/stream \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Hello", "model": "gemini", "stream": true}'
+```
 
-### Phase 1: Core Platform (Completed)
-- ✅ Multi-model AI support (DeepSeek, Gemini, OpenAI)
-- ✅ SIEM data integration foundation (OpenSearch)
-- ✅ SOC analysis templates
-- ✅ Session management and streaming responses
+### Health Check
+```bash
+curl http://localhost:5000/health
+```
 
-### Phase 2: Universal SIEM Connector (Current)
-- 🚧 **Data Source Integration Layer**
-  - Splunk Enterprise/Cloud via REST API
-  - CrowdStrike Falcon SIEM API connector
-  - Microsoft Sentinel KQL queries
-  - Elastic Security data streams
-- 🚧 **Unified Query Translation**
-  - Convert natural language to platform-specific queries
-  - Normalize responses across different SIEM formats
-
-### Phase 3: Intelligent Orchestration 
-- **Autonomous Investigation Agents**
-  - Hypothesis formation from initial alerts
-  - Automatic pivot queries based on findings
-  - Evidence chain construction
-  - MITRE ATT&CK technique mapping
-- **Context-Aware Analysis**
-  - Historical baseline comparison
-  - Entity relationship mapping
-  - Threat intelligence enrichment
-  - IOC extraction and correlation
-
-### Phase 4: Operational Intelligence 
-- **Workflow Automation**
-  - Custom agent creation for specific use cases
-  - Automated triage and classification
-  - Response action recommendations
-  - Integration with SOAR platforms
-- **Multi-Source Correlation**
-  - Cross-SIEM data fusion
-  - EDR + SIEM unified analysis
-  - Network + endpoint correlation
-  - Cloud security posture integration
-
-### Phase 5: Enterprise Features (Future)
-- **Deployment Flexibility**
-  - Air-gapped deployment option
-  - Multi-tenant architecture
-  - Role-based access control
-  - Audit logging and compliance reporting
-- **Advanced Capabilities**
-  - Custom model fine-tuning on org data
-  - Embedded assistants for existing tools
-  - White-label deployment options
-  - API-first architecture for integrations
-
-## 🧪 Testing
+### SOC Features
+The application includes Security Operations Center (SOC) templates for incident analysis:
 
 ```bash
-# Manual testing interface
-python3 manual_test.py
+# Get available SOC templates
+curl http://localhost:5000/soc/templates
 
-# Test AI model connections
-python3 demo_ai_clients.py
+# Analyze security incident (text-only)
+curl -X POST http://localhost:5000/soc/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"incident_data": "Suspicious activity detected", "template": "incident_analysis"}'
 
-# Integration tests
-python3 test_flask_integration.py
+# Analyze with live SIEM data (OpenSearch console proxy)
+curl -X POST http://localhost:5000/soc/analyze \
+  -H "Content-Type: application/json" \
+  -d '{
+    "incident_data": "Suspicious login activity", 
+    "opensearch_query": {"query": {"match": {"event.type": "authentication"}}, "size": 10}
+  }'
 
-# OpenSearch connectivity test
-python3 security_core/tests/test_savedcard_alert.py
+# Uses console proxy pattern: https://your-opensearch:443/api/console/proxy?path=/logs-*/_search&method=POST
 ```
 
-## 🤝 Contributing
+## 🛠 Project Structure
 
-This is an open-source prototype actively being developed. Contributions welcome:
+### Project Structure
+```
+ba-new/
+├── app.py                    # Main Flask application (~450 lines)
+├── ai_handler.py             # AI analysis with OSINT integration
+├── alert_store.py            # SQLite alert storage (CRUD operations)
+├── session_manager.py        # Chat session management
+├── ai_clients.py             # DeepSeek/Gemini provider abstraction
+├── connectors/               
+│   └── opensearch.py        # OpenSearch query interface (179 lines)
+├── static/                   # Frontend assets
+│   ├── js/main.js          # Chat interface logic
+│   └── css/                # Stylesheets
+├── alerts.db                # SQLite database for alerts
+├── .env.example             # Environment template with all options
+└── CLAUDE.md                # AI coding guidelines
+```
 
-1. Fork the repository
-2. Create a feature branch
-3. Test your changes
-4. Submit a pull request
 
-Priority areas for contribution:
-- Additional SIEM connectors
-- Hunt pack templates
-- AI prompt optimization
-- Security analysis improvements
+## 🔧 Development
 
-## 📚 Documentation
+### Running Tests
+```bash
+# Manual testing script
+python3 manual_test.py
 
-- [Configuration Reference](CONFIGURATION_REFERENCE.md)
-- [Deployment Guide](DEPLOYMENT_GUIDE.md)
-- [Development Notes](CLAUDE.md)
-- [Implementation Plans](ccspec/)
+# Multi-model demonstration
+python3 demo_ai_clients.py
 
-## ⚠️ Disclaimer
+# Integration examples
+python3 integration_example.py
 
-This is a prototype tool for security analysis. Always verify AI-generated analysis with human expertise. Not intended as a replacement for professional security analysts or commercial SOC platforms.
+# Configuration validation
+python3 validate_deployment.py development
+```
+
+### API Routes
+
+#### Core Application Routes
+- `GET /` - Web chat interface and static file serving
+- `POST /chat` - AI chat endpoint with model selection
+- `GET /health` - Application health check and dependency status
+
+#### Security & SOC Routes  
+- `POST /security/analyze` - Security incident analysis
+- `GET /security/alerts` - Retrieve stored alerts for audit
+- `POST /soc/analyze` - SOC analysis with template support
+- `GET /soc/templates` - Available SOC analysis templates
+
+#### OpenSearch Integration Routes
+- `GET /opensearch/indices` - Available OpenSearch indices discovery
+- `POST /opensearch/query` - Execute OpenSearch queries via console proxy  
+- `GET /opensearch/integration/status` - OpenSearch connector health check
+
+## 🔒 Security Features
+
+- **Input Validation**: All user inputs are validated and sanitized
+- **API Key Security**: Secure API key management via environment variables
+- **SOC Templates**: Pre-built security analysis templates
+- **Alert Storage**: SQLite storage for security alerts
+- **Session Security**: Secure conversation management with automatic cleanup
+
+## 📄 Documentation
+
+- **[README.md](README.md)** - This file (project overview and quick start)
+- **[DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md)** - Complete deployment instructions
+- **[CONFIGURATION_REFERENCE.md](CONFIGURATION_REFERENCE.md)** - Configuration options reference
+- **[CLAUDE.md](CLAUDE.md)** - Development guidance and architecture
+
+## 🗺️ Roadmap
+
+- Multi-model AI chat (DeepSeek, Gemini)
+- SOC templates and analysis
+- OpenSearch integration for security data
+- Additional SIEM connectors (planned)
+
+## 📄 License
+
+This project is provided as-is for educational and development purposes.

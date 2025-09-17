@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Selector Validation Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .pass { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .fail { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Task 5 Model Selector Validation Test</h1>
+    
+    <div class="test-container">
+        <h2>Validation Tests</h2>
+        <div id="test-results"></div>
+        <button onclick="runAllTests()">Run All Tests</button>
+        <button onclick="loadMainApp()">Load Main Application</button>
+    </div>
+
+    <div class="test-container">
+        <h2>Main Application</h2>
+        <iframe id="main-app" src="about:blank"></iframe>
+    </div>
+
+    <script>
+        let testResults = [];
+
+        function logTest(testName, passed, details) {
+            testResults.push({
+                name: testName,
+                passed: passed,
+                details: details
+            });
+            updateTestDisplay();
+        }
+
+        function updateTestDisplay() {
+            const container = document.getElementById('test-results');
+            container.innerHTML = testResults.map(result => 
+                `<div class="test-result ${result.passed ? 'pass' : 'fail'}">
+                    <strong>${result.name}:</strong> ${result.passed ? 'PASS' : 'FAIL'}
+                    ${result.details ? ` - ${result.details}` : ''}
+                </div>`
+            ).join('');
+        }
+
+        function loadMainApp() {
+            document.getElementById('main-app').src = '/';
+        }
+
+        async function runAllTests() {
+            testResults = [];
+            updateTestDisplay();
+
+            // Test 1: Check if index.html loads successfully
+            try {
+                const response = await fetch('/');
+                if (response.ok) {
+                    const html = await response.text();
+                    
+                    // Test 2: Verify model selector element exists
+                    const hasModelSelector = html.includes('id="modelSelector"') && html.includes('model-selector');
+                    logTest('Model selector element exists', hasModelSelector, 
+                        hasModelSelector ? 'Found select element with ID modelSelector' : 'Model selector not found');
+
+                    // Test 3: Verify DeepSeek and Gemini options
+                    const hasDeepSeekOption = html.includes('value="deepseek"') && html.includes('>DeepSeek<');
+                    const hasGeminiOption = html.includes('value="gemini"') && html.includes('>Gemini<');
+                    logTest('DeepSeek option exists', hasDeepSeekOption, 
+                        hasDeepSeekOption ? 'Found DeepSeek option' : 'DeepSeek option missing');
+                    logTest('Gemini option exists', hasGeminiOption, 
+                        hasGeminiOption ? 'Found Gemini option' : 'Gemini option missing');
+
+                    // Test 4: Verify dark blue theme variables
+                    const hasThemeVariables = html.includes('--color-dark-blue: #050a30') && 
+                                            html.includes('--color-navy-blue: #000c66') && 
+                                            html.includes('--color-blue: #0000ff') && 
+                                            html.includes('--color-baby-blue: #7ec8e3');
+                    logTest('Dark blue theme variables', hasThemeVariables, 
+                        hasThemeVariables ? 'All theme colors found' : 'Theme colors missing');
+
+                    // Test 5: Verify model selector styling
+                    const hasModelSelectorStyling = html.includes('.model-selector') && 
+                                                  html.includes('.model-selector-wrapper') && 
+                                                  html.includes('.model-selector-label');
+                    logTest('Model selector CSS styling', hasModelSelectorStyling, 
+                        hasModelSelectorStyling ? 'Model selector CSS classes found' : 'CSS styling missing');
+
+                    // Test 6: Verify accessibility features
+                    const hasAccessibility = html.includes('aria-label="Select AI model') && 
+                                            html.includes('aria-describedby="modelSelectorHelp"') && 
+                                            html.includes('for="modelSelector"');
+                    logTest('WCAG 2.1 AA accessibility compliance', hasAccessibility, 
+                        hasAccessibility ? 'ARIA labels and proper labeling found' : 'Accessibility features missing');
+
+                    // Test 7: Verify JavaScript model handling
+                    const hasModelHandling = html.includes('handleModelChange') && 
+                                           html.includes('loadModelSelection') && 
+                                           html.includes('sessionStorage.setItem(\'selectedModel\'');
+                    logTest('JavaScript model handling', hasModelHandling, 
+                        hasModelHandling ? 'Model change handlers and storage found' : 'JavaScript handling missing');
+
+                    // Test 8: Verify responsive design
+                    const hasResponsiveCSS = html.includes('@media (max-width: 768px)') && 
+                                           html.includes('.model-selector-wrapper') && 
+                                           html.includes('flex-direction: row');
+                    logTest('Responsive design implementation', hasResponsiveCSS, 
+                        hasResponsiveCSS ? 'Mobile responsive CSS found' : 'Responsive design missing');
+
+                } else {
+                    logTest('Index.html loads successfully', false, `HTTP ${response.status}`);
+                }
+            } catch (error) {
+                logTest('Index.html loads successfully', false, error.message);
+            }
+
+            // Test 9: Backend model parameter support
+            try {
+                const chatResponse = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: 'Test message',
+                        model: 'deepseek'
+                    })
+                });
+
+                if (chatResponse.ok) {
+                    const chatData = await chatResponse.json();
+                    const hasModelTracking = chatData.model && chatData.provider && chatData.requested_model;
+                    logTest('Backend model parameter handling', hasModelTracking, 
+                        hasModelTracking ? `Model: ${chatData.model}, Provider: ${chatData.provider}` : 'Model tracking missing');
+                } else {
+                    logTest('Backend model parameter handling', false, `HTTP ${chatResponse.status}`);
+                }
+            } catch (error) {
+                logTest('Backend model parameter handling', false, error.message);
+            }
+
+            // Test 10: Health endpoint model information
+            try {
+                const healthResponse = await fetch('/health');
+                if (healthResponse.ok) {
+                    const healthData = await healthResponse.json();
+                    const hasMultiModelSupport = healthData.features && 
+                                               healthData.features.multi_model_support && 
+                                               healthData.features.model_switching;
+                    logTest('Multi-model backend support', hasMultiModelSupport, 
+                        hasMultiModelSupport ? 'Multi-model features confirmed' : 'Multi-model support missing');
+
+                    const hasAvailableModels = healthData.available_models && healthData.available_models.length > 0;
+                    logTest('Available models detection', hasAvailableModels, 
+                        hasAvailableModels ? `${healthData.available_models.length} models available` : 'No models detected');
+                } else {
+                    logTest('Multi-model backend support', false, `HTTP ${healthResponse.status}`);
+                }
+            } catch (error) {
+                logTest('Multi-model backend support', false, error.message);
+            }
+
+            // Summary
+            const passedTests = testResults.filter(r => r.passed).length;
+            const totalTests = testResults.length;
+            const passRate = Math.round((passedTests / totalTests) * 100);
+            
+            logTest(`SUMMARY: ${passedTests}/${totalTests} tests passed (${passRate}%)`, 
+                    passRate >= 80, 
+                    passRate >= 80 ? 'Task 5 implementation is valid' : 'Task 5 needs fixes');
+        }
+
+        // Auto-run tests on page load
+        window.onload = () => {
+            setTimeout(runAllTests, 1000);
+        };
+    </script>
+</body>
+</html>

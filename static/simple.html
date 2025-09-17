@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeepSeek Chat - SOC Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            background: #2d2d2d;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 2px solid #4a4a4a;
+        }
+        
+        .header h1 {
+            color: #7ec8e3;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            color: #b0b0b0;
+            font-size: 14px;
+        }
+        
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 20px;
+        }
+        
+        .chat-container {
+            flex: 1;
+            background: #2d2d2d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            overflow-y: auto;
+            min-height: 400px;
+            border: 1px solid #4a4a4a;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            line-height: 1.5;
+        }
+        
+        .user-message {
+            background: #0066cc;
+            color: white;
+            margin-left: 20%;
+        }
+        
+        .assistant-message {
+            background: #404040;
+            color: #e0e0e0;
+            margin-right: 20%;
+            white-space: pre-wrap;
+        }
+        
+        .error-message {
+            background: #cc0000;
+            color: white;
+            margin-right: 20%;
+        }
+        
+        .input-section {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #4a4a4a;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+        
+        .input-group textarea {
+            flex: 1;
+            background: #1a1a1a;
+            border: 1px solid #4a4a4a;
+            border-radius: 4px;
+            padding: 12px;
+            color: #e0e0e0;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 50px;
+            max-height: 150px;
+        }
+        
+        .input-group textarea:focus {
+            outline: none;
+            border-color: #7ec8e3;
+        }
+        
+        .input-group button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 12px 24px;
+            font-size: 14px;
+            cursor: pointer;
+            height: 50px;
+        }
+        
+        .input-group button:hover {
+            background: #0052a3;
+        }
+        
+        .input-group button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        
+        .status {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #7ec8e3;
+        }
+        
+        .loading {
+            display: none;
+            color: #7ec8e3;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>DeepSeek Chat</h1>
+        <p>Security Operations Center AI Assistant</p>
+    </div>
+    
+    <div class="main">
+        <div class="chat-container" id="chatContainer">
+            <div class="message assistant-message">
+                Welcome to DeepSeek Chat! I'm ready to assist with your security operations and analysis tasks.
+            </div>
+        </div>
+        
+        <div class="input-section">
+            <form id="chatForm">
+                <div class="input-group">
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Type your message here..."
+                        required
+                    ></textarea>
+                    <button type="submit" id="sendButton">Send</button>
+                </div>
+                <div class="status">
+                    <span class="loading" id="loadingStatus">Sending message...</span>
+                    <span id="statusText">Ready</span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let sessionId = null;
+        
+        const chatContainer = document.getElementById('chatContainer');
+        const chatForm = document.getElementById('chatForm');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const loadingStatus = document.getElementById('loadingStatus');
+        const statusText = document.getElementById('statusText');
+        
+        // Add message to chat
+        function addMessage(content, isUser = false, isError = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : (isError ? 'error-message' : 'assistant-message')}`;
+            messageDiv.textContent = content;
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+        
+        // Handle form submission
+        chatForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const message = messageInput.value.trim();
+            if (!message) return;
+            
+            // Add user message to chat
+            addMessage(message, true);
+            
+            // Clear input and show loading
+            messageInput.value = '';
+            sendButton.disabled = true;
+            loadingStatus.style.display = 'inline';
+            statusText.style.display = 'none';
+            
+            try {
+                // Send message to backend
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        session_id: sessionId
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Success - add AI response
+                    addMessage(data.response);
+                    sessionId = data.session_id;
+                    statusText.textContent = 'Ready';
+                } else {
+                    // Error from server
+                    addMessage(`Error: ${data.error}${data.details ? ' - ' + data.details : ''}`, false, true);
+                    statusText.textContent = 'Error occurred';
+                }
+                
+            } catch (error) {
+                // Network or other error
+                addMessage(`Connection error: ${error.message}`, false, true);
+                statusText.textContent = 'Connection failed';
+            }
+            
+            // Hide loading and re-enable button
+            sendButton.disabled = false;
+            loadingStatus.style.display = 'none';
+            statusText.style.display = 'inline';
+        });
+        
+        // Allow Enter to submit (Shift+Enter for new line)
+        messageInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                chatForm.dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>

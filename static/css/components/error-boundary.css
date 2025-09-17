@@ -1,0 +1,379 @@
+/**
+ * Error Boundary Components Styles - Task 9.1 Implementation
+ * 
+ * Styles for error boundary components and fallback interfaces
+ * Integrates with the dark blue theme and accessibility requirements
+ */
+
+/* Base error boundary fallback styles */
+.error-boundary-fallback {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-large);
+    margin: var(--spacing-medium) 0;
+    background: var(--color-error-background, rgba(220, 53, 69, 0.1));
+    border: 1px solid var(--color-error-border, rgba(220, 53, 69, 0.3));
+    border-radius: var(--border-radius-medium);
+    text-align: center;
+    min-height: 200px;
+    animation: errorFadeIn 0.3s ease-in-out;
+}
+
+/* Error icon */
+.error-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-medium);
+    opacity: 0.8;
+}
+
+/* Error content container */
+.error-content {
+    max-width: 500px;
+    width: 100%;
+}
+
+/* Error title */
+.error-title {
+    color: var(--color-error, #dc3545);
+    font-size: var(--font-size-large);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--spacing-small);
+    line-height: 1.4;
+}
+
+/* Error message */
+.error-message {
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-medium);
+    line-height: 1.5;
+    margin-bottom: var(--spacing-large);
+}
+
+/* Error actions container */
+.error-actions {
+    display: flex;
+    gap: var(--spacing-small);
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-medium);
+}
+
+/* Error action buttons */
+.error-actions button {
+    padding: var(--spacing-small) var(--spacing-medium);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--border-radius-small);
+    background: transparent;
+    color: var(--color-primary);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 44px; /* Accessibility: touch target size */
+}
+
+.error-actions button:hover {
+    background: var(--color-primary);
+    color: var(--color-background);
+}
+
+.error-actions button:focus {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+/* Primary retry button */
+.error-retry-btn,
+.retry-stream-btn,
+.retry-connection-btn,
+.retry-storage-btn {
+    background: var(--color-primary);
+    color: var(--color-background);
+}
+
+.error-retry-btn:hover,
+.retry-stream-btn:hover,
+.retry-connection-btn:hover,
+.retry-storage-btn:hover {
+    background: var(--color-primary-dark);
+}
+
+/* Error details container */
+.error-details {
+    margin-top: var(--spacing-medium);
+    padding: var(--spacing-medium);
+    background: var(--color-background-darker, rgba(0, 0, 0, 0.2));
+    border-radius: var(--border-radius-small);
+    text-align: left;
+    border: 1px solid var(--color-border-light);
+}
+
+.error-stack {
+    background: var(--color-code-background, rgba(0, 0, 0, 0.3));
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-small);
+    padding: var(--spacing-small);
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+    white-space: pre-wrap;
+    word-break: break-all;
+    overflow-x: auto;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: var(--spacing-small);
+}
+
+.error-timestamp,
+.error-category,
+.error-severity {
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+    margin: var(--spacing-xs) 0;
+}
+
+/* Severity-based styling */
+.error-severity-low {
+    --color-error: #ffc107;
+    --color-error-background: rgba(255, 193, 7, 0.1);
+    --color-error-border: rgba(255, 193, 7, 0.3);
+}
+
+.error-severity-medium {
+    --color-error: #fd7e14;
+    --color-error-background: rgba(253, 126, 20, 0.1);
+    --color-error-border: rgba(253, 126, 20, 0.3);
+}
+
+.error-severity-high {
+    --color-error: #dc3545;
+    --color-error-background: rgba(220, 53, 69, 0.1);
+    --color-error-border: rgba(220, 53, 69, 0.3);
+}
+
+.error-severity-critical {
+    --color-error: #6f42c1;
+    --color-error-background: rgba(111, 66, 193, 0.1);
+    --color-error-border: rgba(111, 66, 193, 0.3);
+    border-width: 2px;
+}
+
+/* Category-specific styling */
+.error-category-streaming .error-icon::before {
+    content: "📡";
+}
+
+.error-category-storage .error-icon::before {
+    content: "💾";
+}
+
+.error-category-network .error-icon::before {
+    content: "🌐";
+}
+
+.error-category-rendering .error-icon::before {
+    content: "🎨";
+}
+
+.error-category-javascript .error-icon::before {
+    content: "⚠️";
+}
+
+.error-category-ui .error-icon::before {
+    content: "🖥️";
+}
+
+.error-category-performance .error-icon::before {
+    content: "⚡";
+}
+
+.error-category-accessibility .error-icon::before {
+    content: "♿";
+}
+
+/* Specialized error boundary fallbacks */
+.streaming-error-fallback {
+    background: linear-gradient(135deg, 
+        rgba(0, 123, 255, 0.1) 0%, 
+        rgba(126, 200, 227, 0.1) 100%);
+    border-color: var(--color-primary);
+}
+
+.storage-error-fallback {
+    background: linear-gradient(135deg, 
+        rgba(255, 193, 7, 0.1) 0%, 
+        rgba(255, 235, 59, 0.1) 100%);
+    border-color: #ffc107;
+}
+
+.network-error-fallback {
+    background: linear-gradient(135deg, 
+        rgba(220, 53, 69, 0.1) 0%, 
+        rgba(255, 99, 132, 0.1) 100%);
+    border-color: #dc3545;
+}
+
+/* Loading states for error boundaries */
+.error-boundary-recovering {
+    position: relative;
+    opacity: 0.7;
+}
+
+.error-boundary-recovering::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    margin: -12px 0 0 -12px;
+    border: 2px solid var(--color-primary);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Animations */
+@keyframes errorFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .error-boundary-fallback {
+        padding: var(--spacing-medium);
+        min-height: 150px;
+    }
+    
+    .error-icon {
+        font-size: 2rem;
+    }
+    
+    .error-title {
+        font-size: var(--font-size-medium);
+    }
+    
+    .error-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .error-actions button {
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .error-details {
+        padding: var(--spacing-small);
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .error-boundary-fallback {
+        border-width: 2px;
+        background: var(--color-background);
+    }
+    
+    .error-title {
+        font-weight: var(--font-weight-bold);
+    }
+    
+    .error-actions button {
+        border-width: 2px;
+        font-weight: var(--font-weight-medium);
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .error-boundary-fallback {
+        animation: none;
+    }
+    
+    .error-boundary-recovering::after {
+        animation: none;
+        opacity: 0.5;
+    }
+    
+    .error-actions button {
+        transition: none;
+    }
+}
+
+/* Focus management for error boundaries */
+.error-boundary-fallback[aria-live="polite"] {
+    /* Announced by screen readers */
+}
+
+.error-boundary-fallback:focus-within {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+/* Error boundary status indicators */
+.error-boundary-status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-small);
+    border-radius: var(--border-radius-small);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+}
+
+.error-boundary-status.healthy {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+}
+
+.error-boundary-status.error {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+}
+
+.error-boundary-status.recovering {
+    background: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+}
+
+.error-boundary-status.fallback {
+    background: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+}
+
+.error-boundary-status.critical {
+    background: rgba(111, 66, 193, 0.1);
+    color: #6f42c1;
+}
+
+/* Integration with existing theme variables */
+:root {
+    --error-boundary-background: rgba(220, 53, 69, 0.1);
+    --error-boundary-border: rgba(220, 53, 69, 0.3);
+    --error-boundary-text: #dc3545;
+    --error-boundary-radius: var(--border-radius-medium);
+    --error-boundary-padding: var(--spacing-large);
+}
+
+/* Dark theme adjustments */
+[data-theme="dark-blue"] {
+    --error-boundary-background: rgba(220, 53, 69, 0.15);
+    --error-boundary-border: rgba(220, 53, 69, 0.4);
+    --error-boundary-text: #ff6b7a;
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DeepSeek Chat - SOC Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1 {
+            color: #7ec8e3;
+            text-align: center;
+        }
+        
+        form {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #4a4a4a;
+        }
+        
+        textarea {
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #4a4a4a;
+            color: #e0e0e0;
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            height: 100px;
+        }
+        
+        button {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background: #0052a3;
+        }
+        
+        .response {
+            background: #404040;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+        
+        .error {
+            background: #cc0000;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>DeepSeek Chat</h1>
+    <p style="text-align: center; color: #b0b0b0;">Security Operations Center AI Assistant</p>
+    
+    <form action="/chat" method="POST" enctype="application/json">
+        <textarea name="message" placeholder="Type your security question or analysis request here..." required></textarea>
+        <br>
+        <button type="submit">Send Message</button>
+    </form>
+</body>
+</html>

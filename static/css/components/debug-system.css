@@ -1,0 +1,629 @@
+/**
+ * Debug System Styles - Task 10.2 Implementation
+ * 
+ * Styles for debug mode controls, visual indicators, and error simulation tools
+ */
+
+/* Debug System Visual Indicators */
+.debug-indicators {
+    font-family: 'Courier New', monospace;
+    user-select: none;
+}
+
+.debug-indicator {
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    font-size: 11px;
+    line-height: 1.2;
+    animation: fadeIn 0.3s ease;
+}
+
+.debug-indicator:hover {
+    opacity: 1 !important;
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.status-dot {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 0.7; transform: translateY(0); }
+}
+
+/* Debug Panel Extension Styles */
+.debug-tab-container {
+    padding: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.debug-section {
+    margin-bottom: 20px;
+    border: 1px solid #444;
+    border-radius: 6px;
+    padding: 12px;
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.debug-section-title {
+    margin: 0 0 12px 0;
+    font-size: 14px;
+    font-weight: bold;
+    color: #7ec8e3;
+    border-bottom: 1px solid #444;
+    padding-bottom: 6px;
+}
+
+/* Debug Mode Controls */
+.debug-mode-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.debug-mode-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.debug-mode-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-size: 11px;
+}
+
+.debug-mode-actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* Debug Controls */
+.debug-select {
+    background-color: #2a2a2a;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-family: monospace;
+}
+
+.debug-select:focus {
+    border-color: #7ec8e3;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(126, 200, 227, 0.2);
+}
+
+.debug-input {
+    background-color: #2a2a2a;
+    border: 1px solid #555;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-family: monospace;
+    width: 80px;
+}
+
+.debug-input:focus {
+    border-color: #7ec8e3;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(126, 200, 227, 0.2);
+}
+
+.debug-btn {
+    background-color: #444;
+    border: 1px solid #666;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 10px;
+    font-family: monospace;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.debug-btn:hover {
+    background-color: #555;
+    border-color: #777;
+}
+
+.debug-btn-primary {
+    background-color: #007bff;
+    border-color: #0056b3;
+}
+
+.debug-btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.debug-btn-secondary {
+    background-color: #6c757d;
+    border-color: #5a6268;
+}
+
+.debug-btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #4e555b;
+}
+
+.debug-btn-warning {
+    background-color: #ffc107;
+    border-color: #d39e00;
+    color: #000;
+}
+
+.debug-btn-warning:hover {
+    background-color: #d39e00;
+    border-color: #b08800;
+}
+
+.debug-btn-danger {
+    background-color: #dc3545;
+    border-color: #bd2130;
+}
+
+.debug-btn-danger:hover {
+    background-color: #bd2130;
+    border-color: #a71e2a;
+}
+
+.debug-btn-info {
+    background-color: #17a2b8;
+    border-color: #117a8b;
+}
+
+.debug-btn-info:hover {
+    background-color: #117a8b;
+    border-color: #0e6674;
+}
+
+.debug-btn-small {
+    padding: 2px 6px;
+    font-size: 9px;
+}
+
+/* Visual Indicators Controls */
+.debug-indicators-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.debug-indicators-toggle label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.debug-indicators-position {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+}
+
+.debug-states-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.debug-state-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px;
+    border: 1px solid #555;
+    border-radius: 3px;
+    background-color: rgba(255, 255, 255, 0.05);
+    font-size: 10px;
+    transition: all 0.2s ease;
+}
+
+.debug-state-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.debug-state-item.active {
+    border-color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+}
+
+.debug-state-item.inactive {
+    opacity: 0.6;
+}
+
+.debug-state-indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+}
+
+.debug-state-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.debug-state-name {
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.debug-state-status {
+    font-size: 9px;
+    opacity: 0.8;
+}
+
+.debug-state-time {
+    font-size: 8px;
+    opacity: 0.6;
+}
+
+.debug-state-details {
+    background: transparent;
+    border: none;
+    color: #7ec8e3;
+    cursor: pointer;
+    padding: 2px;
+    font-size: 10px;
+}
+
+.debug-state-details:hover {
+    color: #fff;
+}
+
+/* Error Simulation Controls */
+.debug-simulation-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.debug-simulation-selector {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+}
+
+.debug-simulation-info {
+    padding: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+    font-size: 10px;
+    min-height: 40px;
+}
+
+.debug-simulation-description {
+    line-height: 1.4;
+}
+
+.debug-simulation-settings {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+}
+
+.debug-simulation-settings small {
+    font-size: 9px;
+    opacity: 0.7;
+    margin-left: 8px;
+}
+
+.debug-simulation-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.debug-active-simulations h4 {
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    color: #ffc107;
+}
+
+.debug-active-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 100px;
+    overflow-y: auto;
+}
+
+.debug-active-simulation {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
+    background-color: rgba(255, 193, 7, 0.1);
+    border: 1px solid #ffc107;
+    border-radius: 3px;
+    font-size: 10px;
+}
+
+.debug-sim-name {
+    flex: 1;
+    font-weight: bold;
+}
+
+.debug-sim-info {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.debug-sim-severity {
+    padding: 1px 4px;
+    border-radius: 2px;
+    font-size: 8px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.debug-sim-severity.low {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.debug-sim-severity.medium {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.debug-sim-severity.high {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+.debug-sim-duration {
+    font-family: monospace;
+    opacity: 0.8;
+}
+
+.debug-sim-stop {
+    background: transparent;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    padding: 2px;
+    font-size: 12px;
+}
+
+.debug-sim-stop:hover {
+    color: #fff;
+    background-color: #dc3545;
+    border-radius: 2px;
+}
+
+/* Advanced Debug Tools */
+.debug-advanced-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.debug-advanced-controls h4 {
+    margin: 0 0 6px 0;
+    font-size: 11px;
+    color: #7ec8e3;
+}
+
+.debug-performance-impact {
+    padding: 8px;
+    background-color: rgba(23, 162, 184, 0.1);
+    border: 1px solid #17a2b8;
+    border-radius: 3px;
+}
+
+.debug-perf-display {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.debug-perf-stat {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+}
+
+.debug-data-export,
+.debug-system-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.debug-export-controls,
+.debug-system-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+/* Debug Statistics */
+.debug-statistics {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.debug-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 8px;
+}
+
+.debug-stat-item {
+    padding: 8px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid #444;
+    border-radius: 3px;
+    text-align: center;
+}
+
+.debug-stat-label {
+    display: block;
+    font-size: 9px;
+    opacity: 0.8;
+    margin-bottom: 4px;
+}
+
+.debug-stat-value {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: monospace;
+    color: #7ec8e3;
+}
+
+/* Debug Labels and Values */
+.debug-label {
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+.debug-value {
+    font-family: monospace;
+    font-size: 10px;
+    color: #7ec8e3;
+    font-weight: bold;
+}
+
+/* System Tab Quick Status */
+.debug-status-section {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: rgba(126, 200, 227, 0.05);
+    border: 1px solid #7ec8e3;
+    border-radius: 4px;
+}
+
+.debug-system-quick-status {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.debug-quick-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+}
+
+.debug-system-quick-actions {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 500px) {
+    .debug-tab-container {
+        padding: 10px;
+    }
+    
+    .debug-states-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .debug-stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .debug-simulation-actions,
+    .debug-export-controls,
+    .debug-system-actions {
+        flex-direction: column;
+    }
+    
+    .debug-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Dark theme adjustments */
+@media (prefers-color-scheme: dark) {
+    .debug-select,
+    .debug-input {
+        background-color: #1a1a1a;
+        border-color: #444;
+    }
+    
+    .debug-section {
+        background-color: rgba(255, 255, 255, 0.03);
+        border-color: #333;
+    }
+    
+    .debug-state-item {
+        background-color: rgba(255, 255, 255, 0.03);
+        border-color: #444;
+    }
+    
+    .debug-simulation-info {
+        background-color: rgba(255, 255, 255, 0.03);
+    }
+}
+
+/* Animation for state changes */
+.debug-state-item {
+    animation: stateChange 0.3s ease;
+}
+
+@keyframes stateChange {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Accessibility improvements */
+.debug-btn:focus,
+.debug-select:focus,
+.debug-input:focus {
+    outline: 2px solid #7ec8e3;
+    outline-offset: 2px;
+}
+
+.debug-state-details:focus {
+    outline: 1px solid #7ec8e3;
+    outline-offset: 1px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .debug-indicator {
+        border: 2px solid currentColor;
+    }
+    
+    .debug-state-indicator {
+        border: 1px solid #fff;
+    }
+    
+    .debug-btn {
+        border-width: 2px;
+    }
+}

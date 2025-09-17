@@ -1,0 +1,511 @@
+/**
+ * Error Notifications Styles - Task 9.1 Implementation
+ * 
+ * Styles for error notifications and user feedback components
+ * Integrates with the dark blue theme and accessibility requirements
+ */
+
+/* Error notifications container */
+.error-notifications-container {
+    position: fixed;
+    top: var(--spacing-medium);
+    right: var(--spacing-medium);
+    z-index: 10000;
+    max-width: 400px;
+    width: 100%;
+    pointer-events: none;
+}
+
+/* Individual notification */
+.error-notification {
+    background: var(--color-background-lighter);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-medium);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: var(--spacing-small);
+    animation: slideInFromRight 0.3s ease-out;
+    pointer-events: all;
+    overflow: hidden;
+}
+
+/* Notification types */
+.error-notification-info {
+    border-left: 4px solid var(--color-info, #17a2b8);
+}
+
+.error-notification-success {
+    border-left: 4px solid var(--color-success, #28a745);
+}
+
+.error-notification-warning {
+    border-left: 4px solid var(--color-warning, #ffc107);
+}
+
+.error-notification-error {
+    border-left: 4px solid var(--color-error, #dc3545);
+}
+
+.error-notification-critical {
+    border-left: 4px solid var(--color-critical, #6f42c1);
+    border-width: 2px;
+    box-shadow: 0 6px 20px rgba(111, 66, 193, 0.3);
+}
+
+/* Notification content */
+.error-notification-content {
+    padding: var(--spacing-medium);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--spacing-small);
+}
+
+.error-notification-message {
+    flex: 1;
+    font-size: var(--font-size-medium);
+    line-height: 1.4;
+    color: var(--color-text);
+}
+
+/* Notification actions */
+.error-notification-actions {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+}
+
+.error-notification-close {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    padding: var(--spacing-xs);
+    border-radius: var(--border-radius-small);
+    transition: all 0.2s ease;
+    min-width: 28px;
+    min-height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.error-notification-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-text);
+}
+
+.error-notification-close:focus {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 1px;
+}
+
+/* Component status indicators */
+.component-status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) var(--spacing-small);
+    border-radius: var(--border-radius-small);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.component-status::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.component-status-healthy {
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.component-status-healthy::before {
+    background: #28a745;
+}
+
+.component-status-error {
+    background: rgba(220, 53, 69, 0.1);
+    color: #dc3545;
+    border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.component-status-error::before {
+    background: #dc3545;
+}
+
+.component-status-recovering {
+    background: rgba(255, 193, 7, 0.1);
+    color: #ffc107;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.component-status-recovering::before {
+    background: #ffc107;
+    animation: pulse 1s infinite;
+}
+
+.component-status-fallback {
+    background: rgba(108, 117, 125, 0.1);
+    color: #6c757d;
+    border: 1px solid rgba(108, 117, 125, 0.3);
+}
+
+.component-status-fallback::before {
+    background: #6c757d;
+}
+
+.component-status-critical {
+    background: rgba(111, 66, 193, 0.1);
+    color: #6f42c1;
+    border: 1px solid rgba(111, 66, 193, 0.3);
+}
+
+.component-status-critical::before {
+    background: #6f42c1;
+    animation: blink 0.5s infinite;
+}
+
+/* Error fallback action buttons */
+.error-fallback button {
+    background: var(--color-primary);
+    color: var(--color-background);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--border-radius-small);
+    padding: var(--spacing-small) var(--spacing-medium);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin: var(--spacing-xs);
+    min-height: 44px; /* Accessibility: touch target size */
+}
+
+.error-fallback button:hover {
+    background: var(--color-primary-dark);
+}
+
+.error-fallback button:focus {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+.error-fallback button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Secondary action buttons */
+.error-fallback button.secondary {
+    background: transparent;
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.error-fallback button.secondary:hover {
+    background: var(--color-primary);
+    color: var(--color-background);
+}
+
+/* Error dashboard (debug mode) */
+.error-dashboard {
+    position: fixed;
+    bottom: var(--spacing-medium);
+    left: var(--spacing-medium);
+    width: 300px;
+    max-height: 400px;
+    background: var(--color-background-darker);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-medium);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    overflow: hidden;
+    display: none; /* Hidden by default, shown in debug mode */
+}
+
+.error-dashboard.visible {
+    display: block;
+}
+
+.error-dashboard-header {
+    background: var(--color-primary);
+    color: var(--color-background);
+    padding: var(--spacing-small) var(--spacing-medium);
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.error-dashboard-toggle {
+    background: transparent;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 2px;
+}
+
+.error-dashboard-content {
+    padding: var(--spacing-small);
+    max-height: 350px;
+    overflow-y: auto;
+    font-size: var(--font-size-small);
+    font-family: var(--font-family-mono);
+}
+
+.error-dashboard-stat {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text-secondary);
+}
+
+.error-dashboard-stat-value {
+    color: var(--color-text);
+    font-weight: var(--font-weight-medium);
+}
+
+/* Progress indicators for error recovery */
+.error-recovery-progress {
+    margin-top: var(--spacing-small);
+    padding: var(--spacing-small);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--border-radius-small);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.error-recovery-progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: var(--spacing-xs);
+}
+
+.error-recovery-progress-fill {
+    height: 100%;
+    background: var(--color-primary);
+    transition: width 0.3s ease;
+    animation: progressGlow 2s infinite;
+}
+
+.error-recovery-message {
+    font-size: var(--font-size-small);
+    color: var(--color-text-secondary);
+    text-align: center;
+}
+
+/* Error logging interface (debug mode) */
+.error-log-viewer {
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    right: 10%;
+    bottom: 10%;
+    background: var(--color-background-darker);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-medium);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    z-index: 10001;
+    display: none;
+    flex-direction: column;
+}
+
+.error-log-viewer.visible {
+    display: flex;
+}
+
+.error-log-header {
+    background: var(--color-primary);
+    color: var(--color-background);
+    padding: var(--spacing-medium);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.error-log-content {
+    flex: 1;
+    padding: var(--spacing-medium);
+    overflow: auto;
+    font-family: var(--font-family-mono);
+    font-size: var(--font-size-small);
+    line-height: 1.4;
+}
+
+.error-log-entry {
+    margin-bottom: var(--spacing-small);
+    padding: var(--spacing-small);
+    border-left: 3px solid var(--color-border);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.error-log-entry.error {
+    border-color: var(--color-error);
+}
+
+.error-log-entry.warning {
+    border-color: var(--color-warning);
+}
+
+.error-log-entry.info {
+    border-color: var(--color-info);
+}
+
+/* Animations */
+@keyframes slideInFromRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0.3;
+    }
+}
+
+@keyframes progressGlow {
+    0%, 100% {
+        box-shadow: 0 0 5px rgba(var(--color-primary-rgb), 0.5);
+    }
+    50% {
+        box-shadow: 0 0 15px rgba(var(--color-primary-rgb), 0.8);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .error-notifications-container {
+        top: var(--spacing-small);
+        right: var(--spacing-small);
+        left: var(--spacing-small);
+        max-width: none;
+    }
+    
+    .error-notification-content {
+        padding: var(--spacing-small);
+    }
+    
+    .error-dashboard {
+        left: var(--spacing-small);
+        right: var(--spacing-small);
+        width: auto;
+        bottom: var(--spacing-small);
+    }
+    
+    .error-log-viewer {
+        top: 5%;
+        left: 5%;
+        right: 5%;
+        bottom: 5%;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .error-notification {
+        border-width: 2px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    
+    .error-notification-critical {
+        border-width: 3px;
+    }
+    
+    .component-status {
+        border-width: 2px;
+        font-weight: var(--font-weight-bold);
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    .error-notification {
+        animation: none;
+    }
+    
+    .component-status-recovering::before,
+    .component-status-critical::before {
+        animation: none;
+    }
+    
+    .error-recovery-progress-fill {
+        animation: none;
+    }
+    
+    .error-notification-close,
+    .error-fallback button {
+        transition: none;
+    }
+}
+
+/* Focus management for accessibility */
+.error-notification:focus-within {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+.error-dashboard:focus-within {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+}
+
+/* Screen reader support */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Integration with existing theme */
+:root {
+    --color-info: #17a2b8;
+    --color-success: #28a745;
+    --color-warning: #ffc107;
+    --color-error: #dc3545;
+    --color-critical: #6f42c1;
+}
+
+/* Dark theme adjustments */
+[data-theme="dark-blue"] {
+    --color-info: #5bc0de;
+    --color-success: #5cb85c;
+    --color-warning: #f0ad4e;
+    --color-error: #d9534f;
+    --color-critical: #8a2be2;
+}

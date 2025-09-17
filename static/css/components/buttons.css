@@ -1,0 +1,449 @@
+/**
+ * Button Components Styles
+ * Extended button styles and specialized button components
+ */
+
+/* === ICON BUTTONS === */
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--button-height);
+  height: var(--button-height);
+  padding: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+  position: relative;
+}
+
+.icon-btn:hover {
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+}
+
+.icon-btn:active {
+  background: var(--color-bg-quaternary);
+  transform: scale(0.95);
+}
+
+.icon-btn:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-offset);
+}
+
+.icon-btn--primary {
+  color: var(--color-primary-light);
+  border-color: var(--color-primary-light);
+}
+
+.icon-btn--primary:hover {
+  background: var(--color-primary-light);
+  color: var(--color-text-primary);
+}
+
+.icon-btn--round {
+  border-radius: var(--radius-full);
+}
+
+/* === FLOATING ACTION BUTTON === */
+
+.fab {
+  position: fixed;
+  bottom: var(--space-xl);
+  right: var(--space-xl);
+  width: 56px;
+  height: 56px;
+  background: var(--color-primary);
+  color: var(--color-text-primary);
+  border: none;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-lg);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--duration-normal) var(--ease-out);
+  z-index: var(--z-fixed);
+}
+
+.fab:hover {
+  background: var(--color-primary-hover);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-xl);
+}
+
+.fab:active {
+  transform: scale(0.95);
+}
+
+/* === BUTTON GROUPS === */
+
+.btn-group {
+  display: inline-flex;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-group .btn {
+  border-radius: 0;
+  border-right-width: 1px;
+  margin-left: 0;
+}
+
+.btn-group .btn:first-child {
+  border-top-left-radius: var(--radius-md);
+  border-bottom-left-radius: var(--radius-md);
+}
+
+.btn-group .btn:last-child {
+  border-top-right-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
+  border-right-width: 2px;
+}
+
+.btn-group .btn:only-child {
+  border-radius: var(--radius-md);
+  border-right-width: 2px;
+}
+
+/* === TOGGLE BUTTONS === */
+
+.btn-toggle {
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-primary);
+}
+
+.btn-toggle.active {
+  background: var(--color-primary);
+  color: var(--color-text-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-toggle:hover {
+  background: var(--color-bg-quaternary);
+  color: var(--color-text-primary);
+}
+
+.btn-toggle.active:hover {
+  background: var(--color-primary-hover);
+}
+
+/* === DROPDOWN BUTTON === */
+
+.btn-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.btn-dropdown::after {
+  content: '';
+  width: 0;
+  height: 0;
+  border: 4px solid transparent;
+  border-top-color: currentColor;
+  margin-left: var(--space-xs);
+}
+
+.btn-dropdown.active::after {
+  transform: rotate(180deg);
+}
+
+/* === SPLIT BUTTON === */
+
+.btn-split {
+  display: inline-flex;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.btn-split .btn-split-main {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-split .btn-split-toggle {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  width: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* === SOCIAL BUTTONS === */
+
+.btn-social {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  min-width: 160px;
+}
+
+.btn-social .social-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* === SPECIALIZED CHAT BUTTONS === */
+
+.btn-clear-chat {
+  background: var(--color-warning);
+  color: var(--color-text-primary);
+  border-color: var(--color-warning);
+}
+
+.btn-clear-chat:hover {
+  background: var(--color-warning-light);
+}
+
+.btn-new-chat {
+  background: var(--color-success);
+  color: var(--color-text-primary);
+  border-color: var(--color-success);
+}
+
+.btn-new-chat:hover {
+  background: var(--color-success-light);
+}
+
+.btn-export-chat {
+  background: var(--color-info);
+  color: var(--color-text-primary);
+  border-color: var(--color-info);
+}
+
+.btn-export-chat:hover {
+  background: var(--color-info-light);
+}
+
+/* === COPY BUTTON === */
+
+.btn-copy {
+  position: relative;
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border-secondary);
+  font-size: var(--font-size-xs);
+  padding: var(--space-xs) var(--space-sm);
+  height: auto;
+  min-height: 32px;
+}
+
+.btn-copy:hover {
+  background: var(--color-bg-quaternary);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-primary);
+}
+
+.btn-copy.copied {
+  background: var(--color-success);
+  color: var(--color-text-primary);
+  border-color: var(--color-success);
+}
+
+.btn-copy.copied::after {
+  content: 'Copied!';
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  white-space: nowrap;
+  box-shadow: var(--shadow-md);
+  z-index: var(--z-tooltip);
+  animation: fadeIn var(--duration-fast) var(--ease-out);
+}
+
+/* === VOICE INPUT BUTTON === */
+
+.btn-voice {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-muted);
+  border: 2px solid var(--color-border-secondary);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.btn-voice:hover {
+  background: var(--color-bg-quaternary);
+  color: var(--color-text-secondary);
+  border-color: var(--color-border-primary);
+}
+
+.btn-voice.recording {
+  background: var(--color-error);
+  color: var(--color-text-primary);
+  border-color: var(--color-error);
+  animation: pulse 1s infinite;
+}
+
+.btn-voice.processing {
+  background: var(--color-warning);
+  color: var(--color-text-primary);
+  border-color: var(--color-warning);
+}
+
+/* === THEME TOGGLE BUTTON === */
+
+.btn-theme-toggle {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-tertiary);
+  color: var(--color-text-muted);
+  border: 2px solid var(--color-border-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-theme-toggle:hover {
+  background: var(--color-bg-quaternary);
+  color: var(--color-text-secondary);
+}
+
+.btn-theme-toggle .theme-icon {
+  width: 20px;
+  height: 20px;
+  transition: transform var(--duration-normal) var(--ease-out);
+}
+
+.btn-theme-toggle .theme-icon--light {
+  position: absolute;
+  transform: translateY(100%);
+}
+
+[data-theme="light"] .btn-theme-toggle .theme-icon--dark {
+  transform: translateY(-100%);
+}
+
+[data-theme="light"] .btn-theme-toggle .theme-icon--light {
+  transform: translateY(0);
+}
+
+/* === ANIMATIONS === */
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* === RESPONSIVE DESIGN === */
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .fab {
+    bottom: var(--space-lg);
+    right: var(--space-lg);
+    width: 48px;
+    height: 48px;
+  }
+  
+  .btn-group {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .btn-group .btn {
+    border-radius: 0;
+    border-right-width: 2px;
+    border-bottom-width: 1px;
+  }
+  
+  .btn-group .btn:first-child {
+    border-top-left-radius: var(--radius-md);
+    border-top-right-radius: var(--radius-md);
+    border-bottom-left-radius: 0;
+  }
+  
+  .btn-group .btn:last-child {
+    border-bottom-left-radius: var(--radius-md);
+    border-bottom-right-radius: var(--radius-md);
+    border-top-right-radius: 0;
+    border-bottom-width: 2px;
+  }
+  
+  .btn-social {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  .btn-split {
+    width: 100%;
+  }
+  
+  .btn-split .btn-split-main {
+    flex: 1;
+  }
+}
+
+/* Touch device adjustments */
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    min-height: 44px;
+  }
+  
+  .icon-btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  .btn-copy.copied::after {
+    display: none;
+  }
+}
+
+/* Reduced motion adjustments */
+@media (prefers-reduced-motion: reduce) {
+  .icon-btn:active {
+    transform: none;
+  }
+  
+  .fab:hover {
+    transform: none;
+  }
+  
+  .fab:active {
+    transform: none;
+  }
+  
+  .btn-voice.recording {
+    animation: none;
+  }
+  
+  .theme-icon {
+    transition: none;
+  }
+}

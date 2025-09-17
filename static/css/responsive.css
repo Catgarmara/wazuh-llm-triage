@@ -1,0 +1,604 @@
+/**
+ * Responsive Design System for Chat Application
+ * Implements comprehensive breakpoints with CSS Grid and Flexbox layouts
+ * Task 2.2: Mobile-first responsive design with breakpoints at 768px and 1024px
+ */
+
+/* === RESPONSIVE BREAKPOINT MIXINS (Using CSS Custom Properties) === */
+
+/* Mobile-first approach: base styles are mobile, then enhance for larger screens */
+
+/* === CSS GRID RESPONSIVE LAYOUTS === */
+
+/* Base Grid System - Mobile First */
+.responsive-grid {
+  display: grid;
+  gap: var(--grid-gap-mobile);
+  width: 100%;
+  grid-template-columns: 1fr;
+}
+
+/* Auto-fit responsive grid */
+.responsive-grid--auto {
+  display: grid;
+  gap: var(--grid-gap-mobile);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  width: 100%;
+}
+
+/* Main content grid */
+.main-grid {
+  display: grid;
+  gap: var(--space-fluid-lg);
+  grid-template-areas:
+    "header"
+    "main"
+    "footer";
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+}
+
+/* Chat layout grid - Mobile */
+.chat-grid {
+  display: grid;
+  gap: var(--space-fluid-md);
+  grid-template-areas:
+    "messages"
+    "input";
+  grid-template-rows: 1fr auto;
+  height: 100%;
+}
+
+.chat-grid__messages {
+  grid-area: messages;
+}
+
+.chat-grid__input {
+  grid-area: input;
+}
+
+/* Message grid layout */
+.message-grid {
+  display: grid;
+  gap: var(--space-fluid-sm);
+  grid-template-columns: 1fr;
+  align-items: start;
+}
+
+.message-grid--user {
+  justify-items: end;
+}
+
+.message-grid--ai {
+  justify-items: start;
+}
+
+/* === FLEXBOX RESPONSIVE LAYOUTS === */
+
+/* Responsive flex container */
+.flex-responsive {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fluid-md);
+  align-items: stretch;
+}
+
+/* Header flex layout */
+.header-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-fluid-sm);
+  text-align: center;
+}
+
+/* Input section flex */
+.input-flex {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fluid-sm);
+  align-items: stretch;
+}
+
+/* Button group flex */
+.button-group-flex {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-fluid-sm);
+  width: 100%;
+}
+
+/* Navigation flex */
+.nav-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-fluid-sm);
+}
+
+/* === RESPONSIVE CONTAINERS === */
+
+/* Fluid container that adapts to screen size */
+.container-responsive {
+  width: 100%;
+  max-width: var(--container-xs);
+  margin: 0 auto;
+  padding: 0 var(--layout-padding-mobile);
+}
+
+/* Chat container responsive */
+.chat-container-responsive {
+  width: 100%;
+  max-width: var(--chat-container-max-width-mobile);
+  margin: 0 auto;
+  padding: var(--chat-container-padding);
+}
+
+/* === RESPONSIVE TYPOGRAPHY === */
+
+/* Fluid heading system */
+.heading-responsive {
+  font-size: var(--font-size-fluid-2xl);
+  line-height: var(--line-height-tight);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-fluid-md);
+}
+
+.heading-responsive--large {
+  font-size: var(--font-size-fluid-3xl);
+}
+
+.heading-responsive--medium {
+  font-size: var(--font-size-fluid-xl);
+}
+
+.heading-responsive--small {
+  font-size: var(--font-size-fluid-lg);
+}
+
+/* Body text responsive */
+.text-responsive {
+  font-size: var(--font-size-fluid-md);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-fluid-sm);
+}
+
+.text-responsive--small {
+  font-size: var(--font-size-fluid-sm);
+}
+
+.text-responsive--large {
+  font-size: var(--font-size-fluid-lg);
+}
+
+/* === RESPONSIVE SPACING === */
+
+/* Margin utilities responsive */
+.margin-responsive {
+  margin: var(--space-fluid-md);
+}
+
+.margin-responsive--small {
+  margin: var(--space-fluid-sm);
+}
+
+.margin-responsive--large {
+  margin: var(--space-fluid-lg);
+}
+
+/* Padding utilities responsive */
+.padding-responsive {
+  padding: var(--space-fluid-md);
+}
+
+.padding-responsive--small {
+  padding: var(--space-fluid-sm);
+}
+
+.padding-responsive--large {
+  padding: var(--space-fluid-lg);
+}
+
+/* === TABLET BREAKPOINT (768px - 1024px) === */
+@media (min-width: 768px) and (max-width: 1024px) {
+  
+  /* Grid adjustments for tablet */
+  .responsive-grid {
+    gap: var(--grid-gap-tablet);
+    grid-template-columns: repeat(var(--grid-columns-tablet), 1fr);
+  }
+  
+  .responsive-grid--auto {
+    gap: var(--grid-gap-tablet);
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+  
+  /* Chat grid for tablet */
+  .chat-grid {
+    gap: var(--space-fluid-lg);
+  }
+  
+  /* Flexbox adjustments */
+  .flex-responsive {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--space-fluid-lg);
+  }
+  
+  .header-flex {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+  
+  .input-flex {
+    flex-direction: row;
+    align-items: flex-end;
+  }
+  
+  .button-group-flex {
+    flex-direction: row;
+    width: auto;
+  }
+  
+  .nav-flex {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  /* Container adjustments */
+  .container-responsive {
+    max-width: var(--container-md);
+    padding: 0 var(--layout-padding-tablet);
+  }
+  
+  .chat-container-responsive {
+    max-width: var(--chat-container-max-width-tablet);
+  }
+}
+
+/* === DESKTOP BREAKPOINT (1025px and up) === */
+@media (min-width: 1025px) {
+  
+  /* Grid adjustments for desktop */
+  .responsive-grid {
+    gap: var(--grid-gap-desktop);
+    grid-template-columns: repeat(var(--grid-columns-desktop), 1fr);
+  }
+  
+  .responsive-grid--auto {
+    gap: var(--grid-gap-desktop);
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  }
+  
+  /* Enhanced main grid for desktop */
+  .main-grid {
+    grid-template-areas:
+      "header header header"
+      ". main ."
+      "footer footer footer";
+    grid-template-columns: 1fr var(--chat-container-max-width-desktop) 1fr;
+    gap: var(--space-fluid-xl);
+  }
+  
+  /* Chat grid for desktop */
+  .chat-grid {
+    gap: var(--space-fluid-xl);
+  }
+  
+  /* Advanced message grid for desktop */
+  .message-grid {
+    grid-template-columns: auto 1fr auto;
+    max-width: var(--message-max-width-desktop);
+  }
+  
+  .message-grid--user {
+    grid-template-areas: ". . message";
+    justify-self: end;
+  }
+  
+  .message-grid--ai {
+    grid-template-areas: "message . .";
+    justify-self: start;
+  }
+  
+  /* Flexbox enhancements */
+  .flex-responsive {
+    gap: var(--space-fluid-xl);
+  }
+  
+  .header-flex {
+    gap: var(--space-fluid-lg);
+  }
+  
+  .input-flex {
+    gap: var(--space-fluid-lg);
+  }
+  
+  .button-group-flex {
+    gap: var(--space-fluid-lg);
+  }
+  
+  /* Container adjustments */
+  .container-responsive {
+    max-width: var(--container-lg);
+    padding: 0 var(--layout-padding-desktop);
+  }
+  
+  .chat-container-responsive {
+    max-width: var(--chat-container-max-width-desktop);
+  }
+}
+
+/* === EXTRA LARGE DESKTOP (1280px and up) === */
+@media (min-width: 1280px) {
+  .container-responsive {
+    max-width: var(--container-xl);
+  }
+  
+  .main-grid {
+    grid-template-columns: 1fr var(--container-xl) 1fr;
+  }
+  
+  .responsive-grid--auto {
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  }
+}
+
+/* === 2X LARGE DESKTOP (1536px and up) === */
+@media (min-width: 1536px) {
+  .container-responsive {
+    max-width: var(--container-2xl);
+  }
+  
+  .main-grid {
+    grid-template-columns: 1fr var(--container-2xl) 1fr;
+  }
+  
+  .responsive-grid--auto {
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  }
+}
+
+/* === RESPONSIVE UTILITY CLASSES === */
+
+/* Display utilities responsive */
+.hidden-mobile {
+  display: none;
+}
+
+.hidden-tablet {
+  display: initial;
+}
+
+.hidden-desktop {
+  display: initial;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .hidden-mobile {
+    display: initial;
+  }
+  
+  .hidden-tablet {
+    display: none;
+  }
+  
+  .show-tablet {
+    display: initial;
+  }
+}
+
+@media (min-width: 1025px) {
+  .hidden-mobile {
+    display: initial;
+  }
+  
+  .hidden-desktop {
+    display: none;
+  }
+  
+  .show-desktop {
+    display: initial;
+  }
+}
+
+/* Text alignment responsive */
+.text-center-mobile {
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .text-left-tablet {
+    text-align: left;
+  }
+}
+
+@media (min-width: 1025px) {
+  .text-left-desktop {
+    text-align: left;
+  }
+}
+
+/* Flex direction responsive */
+.flex-col-mobile {
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .flex-row-tablet {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 1025px) {
+  .flex-row-desktop {
+    flex-direction: row;
+  }
+}
+
+/* Width utilities responsive */
+.w-full-mobile {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .w-auto-tablet {
+    width: auto;
+  }
+  
+  .w-half-tablet {
+    width: 50%;
+  }
+}
+
+@media (min-width: 1025px) {
+  .w-auto-desktop {
+    width: auto;
+  }
+  
+  .w-third-desktop {
+    width: 33.333333%;
+  }
+  
+  .w-quarter-desktop {
+    width: 25%;
+  }
+}
+
+/* === RESPONSIVE COMPONENT CLASSES === */
+
+/* Responsive buttons */
+.btn-responsive {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: var(--button-height-mobile);
+  padding: var(--button-padding-y) var(--button-padding-x);
+  border-radius: var(--button-border-radius-mobile);
+  font-size: var(--font-size-fluid-sm);
+  font-weight: var(--button-font-weight);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .btn-responsive {
+    width: auto;
+    height: var(--button-height-tablet);
+    font-size: var(--font-size-fluid-md);
+  }
+}
+
+@media (min-width: 1025px) {
+  .btn-responsive {
+    height: var(--button-height-desktop);
+    border-radius: var(--button-border-radius);
+    font-size: var(--font-size-fluid-md);
+  }
+}
+
+/* Responsive inputs */
+.input-responsive {
+  width: 100%;
+  height: var(--input-height-mobile);
+  padding: var(--input-padding);
+  border: var(--input-border-width) solid var(--color-input-border);
+  border-radius: var(--input-border-radius-mobile);
+  background-color: var(--color-input-bg);
+  color: var(--color-input-text);
+  font-size: var(--font-size-fluid-sm);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.input-responsive:focus {
+  outline: none;
+  border-color: var(--color-input-border-focus);
+  background-color: var(--color-input-bg-focus);
+  box-shadow: var(--focus-ring-primary);
+}
+
+@media (min-width: 768px) {
+  .input-responsive {
+    height: var(--input-height-tablet);
+    font-size: var(--font-size-fluid-md);
+  }
+}
+
+@media (min-width: 1025px) {
+  .input-responsive {
+    height: var(--input-height-desktop);
+    border-radius: var(--input-border-radius);
+    font-size: var(--font-size-fluid-md);
+  }
+}
+
+/* Responsive cards */
+.card-responsive {
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: var(--radius-lg);
+  padding: var(--space-fluid-md);
+  box-shadow: var(--shadow-card);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+@media (min-width: 768px) {
+  .card-responsive {
+    border-radius: var(--radius-xl);
+    padding: var(--space-fluid-lg);
+  }
+}
+
+@media (min-width: 1025px) {
+  .card-responsive {
+    border-radius: var(--radius-2xl);
+    padding: var(--space-fluid-xl);
+  }
+}
+
+/* === ACCESSIBILITY AND INTERACTION === */
+
+/* Focus management for responsive elements */
+.focusable-responsive:focus {
+  outline: none;
+  box-shadow: var(--focus-ring-primary);
+}
+
+/* Touch-friendly tap targets on mobile */
+@media (max-width: 767px) {
+  .touch-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Hover effects only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  .card-responsive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+  }
+  
+  .btn-responsive:hover {
+    transform: translateY(-1px);
+  }
+}
+
+/* === PRINT STYLES === */
+@media print {
+  .responsive-grid,
+  .flex-responsive,
+  .main-grid,
+  .chat-grid {
+    display: block !important;
+  }
+  
+  .hidden-mobile,
+  .hidden-tablet,
+  .hidden-desktop {
+    display: initial !important;
+  }
+}

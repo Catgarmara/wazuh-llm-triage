@@ -1,0 +1,358 @@
+/**
+ * CSS Custom Properties (Variables) for Chat Application Theming
+ * This file defines the design system tokens for consistent theming
+ */
+
+:root {
+  /* === COLOR SYSTEM === */
+  
+  /* Primary Colors - Dark Blue Theme - Task 2.1 Implementation */
+  --color-dark-blue: #050a30;        /* Primary Dark Blue */
+  --color-navy-blue: #000c66;        /* Navy Blue */
+  --color-blue: #0000ff;             /* Pure Blue */
+  --color-baby-blue: #7ec8e3;        /* Baby Blue */
+  
+  /* Primary Color Mapping */
+  --color-primary: var(--color-dark-blue);
+  --color-primary-light: var(--color-navy-blue);
+  --color-primary-bright: var(--color-blue);
+  --color-primary-accent: var(--color-baby-blue);
+  --color-primary-dark: #030619;      /* Darker than Dark Blue */
+  --color-primary-hover: #0a1555;     /* Hover state for Dark Blue */
+  --color-primary-active: #07103d;    /* Active state for Dark Blue */
+  
+  /* Background Colors - Optimized for Dark Blue Theme */
+  --color-bg-primary: #020513;      /* Main background (darker than dark blue) */
+  --color-bg-secondary: #050a30;    /* Card/panel backgrounds (dark blue) */
+  --color-bg-tertiary: #0a1555;     /* Elevated surfaces (lighter dark blue) */
+  --color-bg-quaternary: #0f1f66;   /* Highest elevation (approaching navy) */
+  --color-bg-accent: #1a2980;       /* Accent background */
+  --color-bg-light: #e6f3ff;        /* Light background for contrast */
+  
+  /* Text Colors - WCAG AA Compliant for Dark Blue Backgrounds */
+  --color-text-primary: #ffffff;    /* Primary text (high contrast on dark backgrounds) */
+  --color-text-secondary: #e0e7ff;  /* Secondary text (light blue tint) */
+  --color-text-tertiary: #c7d2fe;   /* Tertiary text */
+  --color-text-muted: #a5b4fc;      /* Muted/placeholder text (baby blue inspired) */
+  --color-text-disabled: #6b7280;   /* Disabled text */
+  --color-text-inverse: #050a30;    /* Text on light backgrounds (dark blue) */
+  --color-text-accent: var(--color-baby-blue); /* Accent text using baby blue */
+  --color-text-on-blue: #ffffff;    /* Text on blue backgrounds */
+  --color-text-on-baby-blue: #1f2937; /* Text on baby blue backgrounds */
+  
+  /* Interactive States */
+  --color-success: #38a169;         /* Success messages */
+  --color-success-light: #68d391;
+  --color-warning: #d69e2e;         /* Warning messages */
+  --color-warning-light: #f6e05e;
+  --color-error: #e53e3e;           /* Error messages */
+  --color-error-light: #fc8181;
+  --color-info: #3182ce;            /* Info messages */
+  --color-info-light: #63b3ed;
+  
+  /* Border Colors - Dark Blue Theme */
+  --color-border-primary: #1a2980;     /* Primary borders (blue tinted) */
+  --color-border-secondary: #0f1f66;   /* Secondary borders */
+  --color-border-tertiary: #0a1555;    /* Subtle borders */
+  --color-border-muted: #050a30;       /* Muted borders (dark blue) */
+  --color-border-focus: var(--color-baby-blue);  /* Focus borders (baby blue) */
+  --color-border-hover: #4f46e5;       /* Hover borders */
+  --color-border-accent: var(--color-blue); /* Accent borders (pure blue) */
+  
+  /* Chat-specific Colors - Dark Blue Theme */
+  --color-user-message: var(--color-navy-blue);     /* User messages (navy blue) */
+  --color-user-message-text: var(--color-text-on-blue);
+  --color-user-message-hover: var(--color-blue);    /* Hover state for user messages */
+  
+  --color-ai-message: var(--color-bg-tertiary);     /* AI messages */
+  --color-ai-message-text: var(--color-text-secondary);
+  --color-ai-message-hover: var(--color-bg-quaternary);
+  
+  --color-typing-indicator: var(--color-baby-blue); /* Typing indicator (baby blue) */
+  --color-message-timestamp: var(--color-text-muted);
+  --color-message-status: var(--color-text-accent);
+
+  /* === FOCUS STATES AND INTERACTIVE ELEMENTS === */
+  
+  /* Focus Ring Colors - WCAG AA Compliant */
+  --focus-ring-primary: 0 0 0 3px rgba(126, 200, 227, 0.4);   /* Baby blue focus */
+  --focus-ring-secondary: 0 0 0 2px rgba(0, 0, 255, 0.3);     /* Blue focus */
+  --focus-ring-error: 0 0 0 3px rgba(239, 68, 68, 0.3);       /* Error focus */
+  --focus-ring-success: 0 0 0 3px rgba(34, 197, 94, 0.3);     /* Success focus */
+  
+  /* Interactive Element Colors */
+  --color-interactive-primary: var(--color-blue);              /* Primary interactive (pure blue) */
+  --color-interactive-primary-hover: #3366ff;                  /* Lighter blue for hover */
+  --color-interactive-primary-active: var(--color-navy-blue);  /* Navy blue for active */
+  
+  --color-interactive-secondary: var(--color-baby-blue);       /* Secondary interactive (baby blue) */
+  --color-interactive-secondary-hover: #9dd1e6;                /* Lighter baby blue */
+  --color-interactive-secondary-active: #5bb5d8;               /* Darker baby blue */
+  
+  /* Button Colors */
+  --color-button-primary-bg: var(--color-navy-blue);
+  --color-button-primary-hover: var(--color-blue);
+  --color-button-primary-active: var(--color-dark-blue);
+  --color-button-primary-text: var(--color-text-on-blue);
+  
+  --color-button-secondary-bg: transparent;
+  --color-button-secondary-hover: var(--color-bg-tertiary);
+  --color-button-secondary-active: var(--color-bg-quaternary);
+  --color-button-secondary-text: var(--color-baby-blue);
+  --color-button-secondary-border: var(--color-baby-blue);
+  
+  /* Input Colors */
+  --color-input-bg: var(--color-bg-tertiary);
+  --color-input-bg-focus: var(--color-bg-quaternary);
+  --color-input-border: var(--color-border-secondary);
+  --color-input-border-focus: var(--color-border-focus);
+  --color-input-text: var(--color-text-primary);
+  --color-input-placeholder: var(--color-text-muted);
+  
+  /* Link Colors */
+  --color-link: var(--color-baby-blue);
+  --color-link-hover: #9dd1e6;
+  --color-link-active: #5bb5d8;
+  --color-link-visited: #b19cd9;
+  
+  /* === SPACING SYSTEM === */
+  --space-xs: 0.25rem;    /* 4px */
+  --space-sm: 0.5rem;     /* 8px */
+  --space-md: 1rem;       /* 16px */
+  --space-lg: 1.5rem;     /* 24px */
+  --space-xl: 2rem;       /* 32px */
+  --space-2xl: 2.5rem;    /* 40px */
+  --space-3xl: 3rem;      /* 48px */
+  --space-4xl: 4rem;      /* 64px */
+  
+  /* === TYPOGRAPHY SYSTEM === */
+  
+  /* Font Families */
+  --font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-family-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  
+  /* Font Sizes */
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-md: 1rem;       /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 1.875rem;  /* 30px */
+  --font-size-4xl: 2.25rem;   /* 36px */
+  
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  
+  /* === BORDER RADIUS SYSTEM === */
+  --radius-none: 0;
+  --radius-xs: 0.125rem;   /* 2px */
+  --radius-sm: 0.25rem;    /* 4px */
+  --radius-md: 0.5rem;     /* 8px */
+  --radius-lg: 0.75rem;    /* 12px */
+  --radius-xl: 1rem;       /* 16px */
+  --radius-2xl: 1.5rem;    /* 24px */
+  --radius-3xl: 2rem;      /* 32px */
+  --radius-full: 9999px;   /* Fully rounded */
+  
+  /* === SHADOW SYSTEM === */
+  --shadow-none: none;
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15), 0 10px 10px rgba(0, 0, 0, 0.04);
+  --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  /* Chat-specific shadows */
+  --shadow-message: var(--shadow-sm);
+  --shadow-input: var(--shadow-md);
+  --shadow-card: var(--shadow-lg);
+  
+  /* === ANIMATION SYSTEM === */
+  
+  /* Timing Functions */
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Durations */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 350ms;
+  --duration-slower: 500ms;
+  
+  /* === Z-INDEX SYSTEM === */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+  --z-toast: 1080;
+  
+  /* === COMPONENT-SPECIFIC VARIABLES === */
+  
+  /* Chat Container - Responsive */
+  --chat-container-max-width: 800px;
+  --chat-container-max-width-mobile: 100%;
+  --chat-container-max-width-tablet: 90%;
+  --chat-container-max-width-desktop: 800px;
+  --chat-container-padding: var(--space-fluid-md);
+  --chat-messages-height: 500px;
+  --chat-messages-height-mobile: calc(100vh - 200px);
+  --chat-messages-height-tablet: 600px;
+  --chat-messages-height-desktop: 700px;
+  
+  /* Messages - Responsive */
+  --message-max-width: 70%;
+  --message-max-width-mobile: 85%;
+  --message-max-width-tablet: 75%;
+  --message-max-width-desktop: 70%;
+  --message-padding: var(--space-fluid-md);
+  --message-margin: var(--space-fluid-sm);
+  --message-border-radius: var(--radius-xl);
+  --message-border-radius-mobile: var(--radius-lg);
+  
+  /* Input - Responsive */
+  --input-height: 48px;
+  --input-height-mobile: 44px;
+  --input-height-tablet: 48px;
+  --input-height-desktop: 52px;
+  --input-padding: var(--space-fluid-md);
+  --input-border-radius: var(--radius-full);
+  --input-border-radius-mobile: var(--radius-lg);
+  --input-border-width: 2px;
+  
+  /* Buttons - Responsive */
+  --button-height: 48px;
+  --button-height-mobile: 44px;
+  --button-height-tablet: 48px;
+  --button-height-desktop: 52px;
+  --button-padding-x: var(--space-fluid-lg);
+  --button-padding-y: var(--space-fluid-md);
+  --button-border-radius: var(--radius-full);
+  --button-border-radius-mobile: var(--radius-lg);
+  --button-font-weight: var(--font-weight-medium);
+  
+  /* Header - Responsive */
+  --header-height: 80px;
+  --header-height-mobile: 64px;
+  --header-height-tablet: 72px;
+  --header-height-desktop: 80px;
+  --header-padding: var(--space-fluid-lg);
+  
+  /* Grid System - Responsive */
+  --grid-gap: var(--space-fluid-md);
+  --grid-gap-mobile: var(--space-fluid-sm);
+  --grid-gap-tablet: var(--space-fluid-md);
+  --grid-gap-desktop: var(--space-fluid-lg);
+  
+  --grid-columns-mobile: 1;
+  --grid-columns-tablet: 2;
+  --grid-columns-desktop: 3;
+  
+  /* Layout Spacing - Responsive */
+  --layout-padding: var(--space-fluid-lg);
+  --layout-padding-mobile: var(--space-fluid-md);
+  --layout-padding-tablet: var(--space-fluid-lg);
+  --layout-padding-desktop: var(--space-fluid-xl);
+  
+  /* === RESPONSIVE BREAKPOINTS === */
+  /* Mobile-first breakpoints following Task 2.2 specifications */
+  --breakpoint-mobile-max: 767px;     /* Mobile: up to 767px */
+  --breakpoint-tablet-min: 768px;     /* Tablet: 768px and up */
+  --breakpoint-tablet-max: 1024px;    /* Tablet: up to 1024px */
+  --breakpoint-desktop-min: 1025px;   /* Desktop: 1025px and up */
+  
+  /* Additional breakpoints for enhanced responsive design */
+  --breakpoint-xs: 480px;             /* Extra small devices */
+  --breakpoint-sm: 640px;             /* Small devices */
+  --breakpoint-md: 768px;             /* Medium devices (tablets) */
+  --breakpoint-lg: 1024px;            /* Large devices (desktops) */
+  --breakpoint-xl: 1280px;            /* Extra large devices */
+  --breakpoint-2xl: 1536px;           /* 2X large devices */
+  
+  /* Container max-widths for different breakpoints */
+  --container-xs: 100%;
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+  
+  /* === RESPONSIVE SPACING SYSTEM === */
+  /* Fluid spacing that scales with viewport */
+  --space-fluid-xs: clamp(0.125rem, 0.5vw, 0.25rem);   /* 2px - 4px */
+  --space-fluid-sm: clamp(0.25rem, 1vw, 0.5rem);       /* 4px - 8px */
+  --space-fluid-md: clamp(0.5rem, 2vw, 1rem);          /* 8px - 16px */
+  --space-fluid-lg: clamp(0.75rem, 3vw, 1.5rem);       /* 12px - 24px */
+  --space-fluid-xl: clamp(1rem, 4vw, 2rem);            /* 16px - 32px */
+  --space-fluid-2xl: clamp(1.5rem, 5vw, 2.5rem);       /* 24px - 40px */
+  --space-fluid-3xl: clamp(2rem, 6vw, 3rem);           /* 32px - 48px */
+  
+  /* === RESPONSIVE TYPOGRAPHY SYSTEM === */
+  /* Fluid typography that scales smoothly */
+  --font-size-fluid-xs: clamp(0.75rem, 0.5vw + 0.7rem, 0.875rem);     /* 12px - 14px */
+  --font-size-fluid-sm: clamp(0.875rem, 0.5vw + 0.825rem, 1rem);      /* 14px - 16px */
+  --font-size-fluid-md: clamp(1rem, 0.5vw + 0.95rem, 1.125rem);       /* 16px - 18px */
+  --font-size-fluid-lg: clamp(1.125rem, 1vw + 1rem, 1.25rem);         /* 18px - 20px */
+  --font-size-fluid-xl: clamp(1.25rem, 1.5vw + 1.1rem, 1.5rem);       /* 20px - 24px */
+  --font-size-fluid-2xl: clamp(1.5rem, 2vw + 1.2rem, 1.875rem);       /* 24px - 30px */
+  --font-size-fluid-3xl: clamp(1.875rem, 3vw + 1.4rem, 2.25rem);      /* 30px - 36px */
+  --font-size-fluid-4xl: clamp(2.25rem, 4vw + 1.6rem, 3rem);          /* 36px - 48px */
+}
+
+/* === THEME VARIANTS === */
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  :root {
+    --color-bg-primary: #000000;
+    --color-bg-secondary: #1a1a1a;
+    --color-text-primary: #ffffff;
+    --color-border-primary: #ffffff;
+  }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration-normal: 0ms;
+    --duration-slow: 0ms;
+    --duration-slower: 0ms;
+  }
+}
+
+/* Light theme variables (for future theme switching) */
+[data-theme="light"] {
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f7fafc;
+  --color-bg-tertiary: #edf2f7;
+  --color-text-primary: #1a202c;
+  --color-text-secondary: #4a5568;
+  --color-text-muted: #718096;
+}
+
+/* === UTILITY CUSTOM PROPERTIES === */
+
+/* Focus outline for accessibility - Enhanced for Dark Blue Theme */
+:root {
+  --focus-outline: 2px solid var(--color-border-focus);
+  --focus-outline-primary: 3px solid var(--color-baby-blue);
+  --focus-outline-secondary: 2px solid var(--color-blue);
+  --focus-offset: 2px;
+  --focus-offset-large: 4px;
+}
