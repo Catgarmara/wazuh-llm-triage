@@ -4,6 +4,7 @@ The profile holds everything environment-specific (dashboard URL, exclusions, ru
 noise sources). Keep real profiles outside the repo; point TRIAGE_PROFILE at one.
 """
 import os
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -23,6 +24,7 @@ def load_env_file(path):
         if not line or line.startswith("#") or "=" not in line:
             continue
         k, v = line.split("=", 1)
+        v = re.split(r"\s+#", v, maxsplit=1)[0]   # inline " # comment"
         v = v.strip().strip("'\"")
         if v:  # an empty value would shadow other credential sources
             os.environ.setdefault(k.strip(), v)

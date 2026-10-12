@@ -99,3 +99,14 @@ def test_saved_query_name_resolves():
     ToolRunner(c, p, guard.Budget(5)).run("count", {"query": "ssh_external", "minutes": 15})
     f = c.calls[0]["query"]["bool"]["filter"]
     assert any(x.get("query_string", {}).get("query") == "rule.groups:sshd AND x:y" for x in f)
+
+
+def test_env_inline_comments(tmp_path, monkeypatch):
+    from triage.config import load_env_file
+    f = tmp_path / ".env"
+    f.write_text("TRIAGE_T1=medium          # comment\nTRIAGE_T2=\nTRIAGE_T3='x#y'\n")
+    for k in ("TRIAGE_T1", "TRIAGE_T2", "TRIAGE_T3"):
+        monkeypatch.delenv(k, raising=False)
+    load_env_file(f)
+    import os
+    assert os.environ["TRIAGE_T1"] == "medium" and "TRIAGE_T2" not in os.environ and os.environ["TRIAGE_T3"] == "x#y"

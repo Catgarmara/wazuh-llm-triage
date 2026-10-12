@@ -187,4 +187,4 @@ No network. The indexer is faked.
 
 ## Status
 
-`triage/` is the active code. The Flask app at the repo root (`app.py`, `connectors/`, `static/`, …) is the previous version and is being retired.
+`triage/` is the active code. The previous Flask/DeepSeek app is in `archive/legacy-flask-app/` (unused).
