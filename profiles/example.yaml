@@ -1,0 +1,45 @@
+# Example profile. Copy outside the repo (e.g. ~/.config/wazuh-llm-triage/prod.yaml) and edit.
+dashboard_url: https://wazuh.example.com
+creds_file: ~/.config/wazuh-llm-triage/dashboard.creds   # USER=... / PASS=... (no quotes)
+verify_tls: true
+index: "*-wazuh-alerts-*"
+ts_field: timestamp
+
+clusters: [east, west]                 # Wazuh API host ids configured in the Dashboard
+cluster_filter:                        # same keys as clusters
+  east: "manager.name:east*"
+  west: "manager.name:west*"
+
+base_filter: ""                        # optional, ANDed onto every query
+
+api_allow: ["/agents/summary/status", "/agents?", "/rules?"]
+
+sections:                              # named Lucene queries: scoreboard rows + LLM shortcuts
+  l10: "rule.level:>=10"               # required
+  l13: "rule.level:>=13"
+  success: "rule.groups:attack_successful OR rule.id:(31106 OR 31168 OR 31169)"
+  web_attack_ext: "rule.groups:web AND rule.groups:attack AND data.srcip:* AND NOT data.srcip:(10.* OR 192.168.*)"
+  brute: "rule.groups:authentication_failures"
+  ssh_external: "rule.groups:sshd AND data.srcip:* AND NOT data.srcip:(10.* OR 192.168.*)"
+
+watch:                                 # expected 0; flagged when non-zero
+  - {label: "decoder errors", query: "rule.id:1002"}
+
+noise:                                 # split into its own scoreboard row, never hidden
+  - {label: "vuln scanner", query: "data.srcip:198.51.100.7"}
+
+dynamic_threshold: 20                  # if L10+ (excl. noise) < this, pull in L7-9 and L0-6 movers
+report_groups:                         # optional: group + label section rows in the hourly report
+  - title: Attacks
+    rows: [{key: success, label: "attack success"}, {key: web_attack_ext, label: "web attacks, external"}]
+  - title: Auth
+    rows: [{key: brute, label: "auth failures"}, {key: ssh_external, label: "external SSH (expect 0)"}]
+notes: |
+  Free text added to the system prompt: what the clusters are, internal ranges, known noise.
+
+limits:                                # optional; defaults shown
+  max_window_min: 60
+  max_hits: 20
+  max_terms: 25
+  max_queries_per_run: 12
+  timeout_s: 60

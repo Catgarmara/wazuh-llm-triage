@@ -78,3 +78,13 @@ task*.md
 
 # Build artifacts
 *.log
+# local-only symlinks to config/secrets and state (never commit)
+local-config
+local-state
+BACKLOG.md
+
+# local state / secrets safety net
+*.db
+.env.*
+!.env.example
+prod.yaml

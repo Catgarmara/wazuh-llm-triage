@@ -1,6 +1,6 @@
-Flask==3.0.0
-Flask-CORS==4.0.0
-python-dotenv==1.0.0
-openai==1.100.1
-google-generativeai==0.8.3
-requests==2.31.0
+anthropic>=1.13
+slack_bolt>=1.30
+apscheduler>=3.11,<4
+requests>=2.31
+pyyaml>=6.0
+pytest>=8

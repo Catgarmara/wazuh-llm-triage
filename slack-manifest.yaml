@@ -1,0 +1,23 @@
+# Slack app manifest: api.slack.com/apps -> Create New App -> From a manifest -> paste this.
+display_information:
+  name: Wazuh Triage
+  description: Answers SIEM questions from Wazuh alerts and posts an hourly report.
+features:
+  app_home:
+    messages_tab_enabled: true
+    messages_tab_read_only_enabled: false
+  bot_user:
+    display_name: wazuh-triage
+    always_online: true
+oauth_config:
+  scopes:
+    bot:
+      - app_mentions:read
+      - chat:write
+      - im:history
+settings:
+  event_subscriptions:
+    bot_events:
+      - app_mention
+      - message.im
+  socket_mode_enabled: true
